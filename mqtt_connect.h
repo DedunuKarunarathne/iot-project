@@ -57,3 +57,30 @@ void reconnect() {
     }
   }
 }
+
+
+/*serialize*/
+// allocate the memory for the document
+const size_t CAPACITY = JSON_OBJECT_SIZE(1);
+StaticJsonDocument<CAPACITY> doc;
+
+// create an object
+JsonObject object = doc.to<JsonObject>();
+object["hello"] = "world";
+
+// serialize the object and send the result to Serial
+serializeJson(doc, Serial);
+
+
+/*deserialize*/
+// allocate the memory for the document
+const size_t CAPACITY = JSON_OBJECT_SIZE(1);
+StaticJsonDocument<CAPACITY> doc;
+
+// deserialize the object
+char json[] = "{\"hello\":\"world\"}";
+deserializeJson(doc, json);
+
+// extract the data
+JsonObject object = doc.as<JsonObject>();
+const char* world = object["hello"];
