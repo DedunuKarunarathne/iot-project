@@ -21,7 +21,6 @@ void setup(){
   Serial.begin(115200);
   EEPROM.begin(512);
   delay(2000);
-  //write_eeprom("Dialog 4G", "QG1YDRGYQB3");
   //delay(5000);
   if (credentials_stored()){
     Serial.println("RETRIEVING CREDENTIALS FROM EEPROM ...");
