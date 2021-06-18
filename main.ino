@@ -12,10 +12,6 @@ bool wifi_connected = false;
 String ssid;
 String password;
 
-void sleep_call(){
-  Serial.println("Entering Deep Sleep Mode for 10 seconds!");
-  //ESP.deepSleep(10e6);
-}
 
 void setup(){
   Serial.begin(115200);
@@ -69,18 +65,5 @@ void loop(){
   }
   client.loop();
 
-  if (Serial.available() > 0) {
-    // read the incoming String:
-    incomingStr = Serial.readString();
-
-    // say what you got:
-    //Serial.println(incomingStr);
-    snprintf (msg, MSG_BUFFER_SIZE, &incomingStr[0]);
-    Serial.print("Publish message: ");
-    Serial.println(msg);
-    client.publish(outTopic, msg);
-  }
-
-  //sleep_call();
   
 }

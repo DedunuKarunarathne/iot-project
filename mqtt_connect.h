@@ -23,8 +23,6 @@ void sleep_call(){
 
 void callback(char* topic, byte* payload, unsigned int length) {
 
-  // return
-  //publish here
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
@@ -34,12 +32,12 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.println();
 
   // call actuator header 
-  char* outputToNodeRed = actuate(payload);
+  String outputToNodeRed = actuate(payload);
 
   Serial.println(outputToNodeRed);
   
   // Publish outputToNodeRed value 
-  client.publish(outTopic,outputToNodeRed );
+  client.publish(outTopic,&outputToNodeRed[0]);
   Serial.println("Published to node red");
   sleep_call();
 }

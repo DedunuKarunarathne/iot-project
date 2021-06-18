@@ -10,7 +10,7 @@ char* outputToNodeRed;
 const size_t inputBufferSize = JSON_OBJECT_SIZE(4);
 const int outputBufferSize = JSON_OBJECT_SIZE(7);
 
-char* actuate( byte* payload) {
+String actuate( byte* payload) {
    
   DynamicJsonBuffer jsonBuffer(inputBufferSize);
   Serial.println(F("buffer allocated"));
@@ -18,12 +18,10 @@ char* actuate( byte* payload) {
   // Parse JSON object
   JsonObject& root = jsonBuffer.parseObject(payload);
   if (!root.success()) {
-  Serial.println(F("Parsing failed!"));
-//    return;
+    Serial.println(F("Parsing failed!"));
   }
   
   //  Decode JSON/Extract values 
-
   int temp = root["temp"];
   int humidity = root["humidity"];
   int water_level = root["water_level"];
@@ -78,16 +76,10 @@ char* actuate( byte* payload) {
   out["fan"] = fan; 
   out["light"] = light; 
   out["water_valve"] = water_valve; 
-
   out.printTo(stringOutput);
+  
   Serial.println("***");
   Serial.println(stringOutput);
-
-  stringOutput.toCharArray(outputToNodeRed,100);
-
-  Serial.println(outputToNodeRed);
-
-//  return (outputToNodeRed);
-  return ("{\"wifi\":\"Dialog\",\"battery\":80,\"fan\":0,\"light\":0,\"water_valve\":0}");
-
+  
+  return (stringOutput);
 }
