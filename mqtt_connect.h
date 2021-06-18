@@ -1,5 +1,8 @@
 #define MSG_BUFFER_SIZE  (50)
 
+#include "actuator.h"
+
+
 /*MQTT status*/
 const char* mqtt_server = "test.mosquitto.org";
 const char* outTopic = "ENTC/170475A/TEST01";
@@ -13,8 +16,15 @@ char msg[MSG_BUFFER_SIZE];
 int value = 0;
 String incomingStr = ""; //for incoming serial data
 
+void sleep_call(){
+  Serial.println("Entering Deep Sleep Mode for 90 seconds!");
+  //ESP.deepSleep(90e6);
+}
 
 void callback(char* topic, byte* payload, unsigned int length) {
+
+  // return
+  //publish here
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
@@ -23,15 +33,15 @@ void callback(char* topic, byte* payload, unsigned int length) {
   }
   Serial.println();
 
-  // Switch on the LED if an 1 was received as first character
-  if ((char)payload[0] == '1') {
-    digitalWrite(BUILTIN_LED, LOW);   // Turn the LED on (Note that LOW is the voltage level
-    // but actually the LED is on; this is because
-    // it is active low on the ESP-01)
-  } else {
-    digitalWrite(BUILTIN_LED, HIGH);  // Turn the LED off by making the voltage HIGH
-  }
+  // call actuator header 
+  char* outputToNodeRed = actuate(payload);
 
+  Serial.println(outputToNodeRed);
+  
+  // Publish outputToNodeRed value 
+  client.publish(outTopic,outputToNodeRed );
+  Serial.println("Published to node red");
+  sleep_call();
 }
 
 void reconnect() {
@@ -45,7 +55,7 @@ void reconnect() {
     if (client.connect(clientId.c_str())) {
       Serial.println("connected");
       // Once connected, publish an announcement...
-      client.publish(outTopic, "hello world");
+//      client.publish(outTopic, "hello world");
       // ... and resubscribe
       client.subscribe(inTopic);
     } else {
@@ -57,30 +67,3 @@ void reconnect() {
     }
   }
 }
-
-
-/*serialize*/
-// allocate the memory for the document
-const size_t CAPACITY = JSON_OBJECT_SIZE(1);
-StaticJsonDocument<CAPACITY> doc;
-
-// create an object
-JsonObject object = doc.to<JsonObject>();
-object["hello"] = "world";
-
-// serialize the object and send the result to Serial
-serializeJson(doc, Serial);
-
-
-/*deserialize*/
-// allocate the memory for the document
-const size_t CAPACITY = JSON_OBJECT_SIZE(1);
-StaticJsonDocument<CAPACITY> doc;
-
-// deserialize the object
-char json[] = "{\"hello\":\"world\"}";
-deserializeJson(doc, json);
-
-// extract the data
-JsonObject object = doc.as<JsonObject>();
-const char* world = object["hello"];
