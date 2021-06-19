@@ -52,3 +52,10 @@ String read_eeprom(int param){
   }
   return data_eeprom;
 }
+
+void clear_eeprom(){
+  Serial.println("CLEARING THE EEPROM ... ");
+  for(int i=0;i<41;i++){
+    EEPROM.write(i, 0); 
+  }
+}

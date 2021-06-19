@@ -16,8 +16,10 @@ String password;
 void setup(){
   Serial.begin(115200);
   EEPROM.begin(512);
+  //clear_eeprom();
   delay(2000);
   //delay(5000);
+  Serial.println("=======================================");
   if (credentials_stored()){
     Serial.println("RETRIEVING CREDENTIALS FROM EEPROM ...");
 //    Serial.print("SSID RECEIVED : ");
@@ -37,6 +39,7 @@ void setup(){
 void loop(){
 
   if (!wifi_connected){
+    Serial.println("=======================================");
     Serial.println("####### Wifi Disconnected");
     Serial.println("####### Starting Access Point ...");
     start_softAP();
@@ -46,6 +49,7 @@ void loop(){
       password = get_password();
       if (ssid != "" && password != ""){
         if (setup_wifi(ssid, password)){
+          delay(5000);
           write_eeprom(ssid, password);
           client.setServer(mqtt_server, 1883);
           client.setCallback(callback);
@@ -54,6 +58,7 @@ void loop(){
         else{
           reset_credentials();
         }
+        Serial.println("=======================================");
         break;
       }
     }  

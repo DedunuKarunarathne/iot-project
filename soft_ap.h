@@ -70,11 +70,11 @@ void reset_credentials(){
 }
 
 String get_ssid(){
-  Serial.println("########## GET SSID");
+  //Serial.println("########## GET SSID");
   return wifi_ssid;
 }
 
 String get_password(){
-  Serial.println("########## GET PASSWORD");
+  //Serial.println("########## GET PASSWORD");
   return wifi_pw;
 }

@@ -5,8 +5,8 @@
 
 /*MQTT status*/
 const char* mqtt_server = "test.mosquitto.org";
-const char* outTopic = "ENTC/170475A/TEST01";
-const char* inTopic = "ENTC/170475A/TEST02";
+const char* outTopic = "IoT/Group1/ToNodeRed";
+const char* inTopic = "IoT/Group1/ToNodeMcu";
 
 /*set Client*/
 WiFiClient espClient;
@@ -17,15 +17,18 @@ int value = 0;
 String incomingStr = ""; //for incoming serial data
 
 void sleep_call(){
+  delay(5000);
   Serial.println("Entering Deep Sleep Mode for 90 seconds!");
-  //ESP.deepSleep(90e6);
+  Serial.println("=======================================");
+  ESP.deepSleep(90e6);
 }
 
 void callback(char* topic, byte* payload, unsigned int length) {
 
+  Serial.println("=======================================");
   Serial.print("Message arrived [");
   Serial.print(topic);
-  Serial.print("] ");
+  Serial.print("] :: ");
   for (int i = 0; i < length; i++) {
     Serial.print((char)payload[i]);
   }
@@ -34,11 +37,9 @@ void callback(char* topic, byte* payload, unsigned int length) {
   // call actuator header 
   String outputToNodeRed = actuate(payload);
 
-  Serial.println(outputToNodeRed);
-  
   // Publish outputToNodeRed value 
   client.publish(outTopic,&outputToNodeRed[0]);
-  Serial.println("Published to node red");
+  Serial.println("## Published to node red");
   sleep_call();
 }
 

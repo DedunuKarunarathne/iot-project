@@ -5,6 +5,7 @@ int attempts = 0;
 bool setup_wifi(String ssid, String password) {
 
   delay(100);
+  Serial.println("=======================================");
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
@@ -30,6 +31,7 @@ bool setup_wifi(String ssid, String password) {
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
+  Serial.println("=======================================");
   
   return true;
 }
