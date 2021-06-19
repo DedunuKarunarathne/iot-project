@@ -58,9 +58,9 @@ void reconnect() {
       // ... and resubscribe
       client.subscribe(inTopic);
     } else {
-      Serial.print("failed, rc=");
-      Serial.print(client.state());
-      Serial.println(" try again in 5 seconds");
+      //Serial.print("failed, rc=");
+      //Serial.print(client.state());
+      Serial.println("! Connection Failed :: Retrying in 5 Seconds");
       // Wait 5 seconds before retrying
       delay(5000);
     }
