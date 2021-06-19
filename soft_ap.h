@@ -21,13 +21,15 @@ const char index_html[] PROGMEM = R"rawliteral(
   <title>Input WiFi Credentials</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   </head><body>
-  <form action="/get">
-    SSID: <input type="text" name="input1">
-    <br>
-    PASSWORD: <input type="text" name="input2">
-    <br>
-    <input type="submit" value="Submit">
-  </form><br>
+  <h2 style="color: #097479;text-align: center"> HydroPhonic Farming Solution</h2>
+      <p>Enter Your WiFi Credentials </p>
+      <form action="/get">
+        SSID: <input type="text" name="input1">
+        <br><br>
+        PASSWORD: <input type="text" name="input2">
+        <br>
+        <input type="submit" value="Submit" style="color: white; background-color:#097479; padding:10px 40px;margin: 20px 10px">
+      </form><br>
 </body></html>)rawliteral";
 
 void notFound(AsyncWebServerRequest *request) {
